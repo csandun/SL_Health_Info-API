@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CoronaApi.ExtensionMethods;
 using CoronaApi.Models;
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
@@ -68,7 +69,7 @@ namespace CoronaApi.Controllers
         {
             // get current data row using date            
             var previousRecord = await this.coronaStatsDbContext.CoronaRecords.OrderByDescending(o => o.RecordDate.Date).Take(1).FirstOrDefaultAsync();
-
+            var tempTreRecord = previousRecord.DeepClone<CoronaRecord>();
             if (previousRecord.RecordDate.Date == DateTime.Now.Date)
             {
                 // update
@@ -97,7 +98,7 @@ namespace CoronaApi.Controllers
                 await this.coronaStatsDbContext.SaveChangesAsync();
             }
             
-            return previousRecord;
+            return tempTreRecord;
         }
 
         private async Task<Data> GetCoronaDetailsFromGovLink()
@@ -155,4 +156,6 @@ namespace CoronaApi.Controllers
             return result;
         }
     }
+
+   
 }

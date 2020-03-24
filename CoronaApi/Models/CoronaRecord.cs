@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoronaApi.Models
 {
+    [Serializable]
     public class CoronaRecord
     {
         public long Id { get; set; }
