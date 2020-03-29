@@ -47,11 +47,13 @@ namespace CoronaApi.Controllers
 
                 var previousRecord = await UpdateStatChanges(dataOfStat);
 
-                // send notification to firebase
-                if (previousRecord.CasesCount != dataOfStat.local_total_cases)
+                // create notification message
+                string title, messageBody;
+                bool isHaveUpdate;
+                CreateNotification(dataOfStat, previousRecord, out title, out messageBody, out isHaveUpdate);
+
+                if (isHaveUpdate)
                 {
-                    var title = "කොරෝනා රොගීන් වැඩිවීමක්.";
-                    var messageBody = "සෞඛ්‍ය ප්‍රවර්ධන කාර්යංශයට අනුව නව රෝගීන් " + (dataOfStat.local_total_cases - previousRecord.CasesCount).ToString() + " ක්  හඳුනා ගනී .";
                     var result = await SendNotificationAsync(title, messageBody);
                     return Ok(result);
                 }
@@ -62,6 +64,28 @@ namespace CoronaApi.Controllers
             catch (Exception e)
             {
                 return Ok("Error" + e.Message);
+            }
+        }
+
+        private void CreateNotification(Data dataOfStat, CoronaRecord previousRecord, out string title, out string messageBody, out bool isHaveUpdate)
+        {
+            title = "testomg";
+            messageBody = "සෞඛ්‍ය ප්‍රවර්ධන කාර්යංශයට අනුව ";
+            isHaveUpdate = false;
+
+            // send notification to firebase
+            
+            if (previousRecord.CasesCount != dataOfStat.local_total_cases)
+            {
+                isHaveUpdate = true;
+                messageBody += "නව රෝගීන් " + (dataOfStat.local_total_cases - previousRecord.CasesCount).ToString() + " ක්  හඳුනා ගනී. ";
+            }
+
+            
+            if (previousRecord.DeathCount != dataOfStat.local_deaths)
+            {
+                isHaveUpdate = true;
+                messageBody += "නව මරණ " + (dataOfStat.local_deaths - previousRecord.DeathCount).ToString() + " ක්  හඳුනා ගනී .";
             }
         }
 
@@ -129,11 +153,11 @@ namespace CoronaApi.Controllers
                 app = FirebaseApp.Create(new AppOptions()
                 {
                     Credential = GoogleCredential.FromFile(path)
-                }, "situation-sl");
+                }, "sl-health-info");
             }
             catch (Exception ex)
             {
-                app = FirebaseApp.GetInstance("situation-sl");
+                app = FirebaseApp.GetInstance("sl-health-info");
             }
 
             var fcm = FirebaseAdmin.Messaging.FirebaseMessaging.GetMessaging(app);
