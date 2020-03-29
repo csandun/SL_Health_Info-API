@@ -97,7 +97,7 @@ namespace CoronaApi.Controllers
             if (previousRecord.RecordDate.Date == DateTime.Now.Date)
             {
                 // update
-                if (previousRecord.CasesCount != data.local_total_cases)
+                if (previousRecord.CasesCount != data.local_total_cases || previousRecord.DeathCount != data.local_deaths || previousRecord.RecoverCount != data.global_recovered)
                 {
                     previousRecord.RecoverCount = data.local_recovered;
                     previousRecord.DeathCount = data.local_deaths;
