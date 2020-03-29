@@ -69,7 +69,7 @@ namespace CoronaApi.Controllers
 
         private void CreateNotification(Data dataOfStat, CoronaRecord previousRecord, out string title, out string messageBody, out bool isHaveUpdate)
         {
-            title = "testomg";
+            title = "කොරෝනා රොගීන් වැඩිවීමක්";
             messageBody = "සෞඛ්‍ය ප්‍රවර්ධන කාර්යංශයට අනුව ";
             isHaveUpdate = false;
 
