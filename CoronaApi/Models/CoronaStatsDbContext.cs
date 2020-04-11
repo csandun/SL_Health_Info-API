@@ -14,6 +14,7 @@ namespace CoronaApi.Models
         { }
 
         public DbSet<CoronaRecord> CoronaRecords { get; set; }
+        public DbSet<Case> Cases { get; set; }
 
     }
 }
