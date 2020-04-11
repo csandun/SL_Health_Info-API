@@ -2,8 +2,8 @@
 api for sl_health_info app 
 
 ### Technologies
-cron jobs
-firebase push notifications 
-asp.net core
-sql server
+1. cron jobs
+2. firebase push notifications 
+3. asp.net core
+4. sql server
 
